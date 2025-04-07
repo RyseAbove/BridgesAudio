@@ -23,6 +23,11 @@ AudioClip mixClips(const AudioClip& ac1, const AudioClip& ac2, float duration) {
 
   // Loop through the samples of both clips and use the average amplitude value
   // TODO
+  for (int i = 0; i < acMix.getSampleCount(); i++) {
+	int sample1 = ac1.getSample(0, i);
+	int sample2 = ac2.getSample(0, i);
+	acMix.setSample(0, i, (sample1 + sample2) / 2);
+  }
   
   return acMix;
 }	
@@ -37,6 +42,7 @@ int main() {
     bridges.setTitle("Audio Mixing");
     bridges.setDescription("Mixing two AudioClips together");
 
+	/*
     // Load the clips
     AudioClip acPiano = AudioClip("../audio/piano.wav");
     bridges.setDataStructure(acPiano);
@@ -50,6 +56,7 @@ int main() {
     AudioClip acMix = mixClips(acPiano, acBass);
     bridges.setDataStructure(acMix);
     bridges.visualize();
+	*/
 
     // One could do a more complex mixing that fades out one clip while the other fades in
     // TODO
