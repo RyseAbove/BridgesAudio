@@ -37,6 +37,26 @@ AudioClip mixClips(const AudioClip& ac1, const AudioClip& ac2) {
   return mixClips(ac1, ac2, min((float)ac1.getSampleCount() / ac1.getSampleRate(), (float)ac2.getSampleCount()  / ac2.getSampleRate()));
 }
 
+AudioClip mixFadeClips(const AudioClip& ac1, const AudioClip& ac2, float duration) {
+	if (ac1.getSampleRate() != ac2.getSampleRate())
+		throw "rates don't match";
+	
+	int sampleRate = ac1.getSampleRate();
+	int sampleCount = sampleRate * duration;
+
+	AudioClip acMix = AudioClip(sampleCount, 1, ac1.getSampleBits(), sampleRate);
+
+	for (int i = 0; i < acMix.getSampleCount(); i++) {
+		float fadeFactor = static_cast<float>(i) / (sampleCount - 1);
+		int sample1 = ac1.getSample(0, i);
+		int sample2 = ac2.getSample(0, i);
+		int mixedSample = (1 - fadeFactor) * sample1 + fadeFactor * sample2;
+
+		acMix.setSample(0, i, mixedSample);
+	}
+	return acMix;
+}
+
 int main() {
     Bridges bridges = Bridges(133, "BRIDGES_USER_ID", "BRIDGES_API_KEY");
     bridges.setTitle("Audio Mixing");
