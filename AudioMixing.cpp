@@ -41,6 +41,7 @@ AudioClip mixFadeClips(const AudioClip& ac1, const AudioClip& ac2, float duratio
 	if (ac1.getSampleRate() != ac2.getSampleRate())
 		throw "rates don't match";
 	
+
 	int sampleRate = ac1.getSampleRate();
 	int sampleCount = sampleRate * duration;
 
@@ -57,6 +58,17 @@ AudioClip mixFadeClips(const AudioClip& ac1, const AudioClip& ac2, float duratio
 	return acMix;
 }
 
+AudioClip slowClips(const AudioClip& ac1, float duration) {
+	
+	int sampleRate = ac1.getSampleRate();
+	int sampleCount = sampleRate * duration;
+
+	//AudioClip acSlow = AudioClip(sampleCount, 1, ac1.getSampleSize(), sampleRate);
+	AudioClip slowClip(sampleCount, 1, ac1.getSampleBits(), 0.5);
+	return slowClip;
+	
+}
+
 int main() {
     Bridges bridges = Bridges(133, "BRIDGES_USER_ID", "BRIDGES_API_KEY");
     bridges.setTitle("Audio Mixing");
@@ -71,6 +83,7 @@ int main() {
     AudioClip acBass = AudioClip("../audio/bass.wav");
     bridges.setDataStructure(acBass);
     bridges.visualize();
+	
     
     // Apply simple mixing of the two AudioClips and visualize
     AudioClip acMix = mixClips(acPiano, acBass);
@@ -83,8 +96,5 @@ int main() {
 	bridges.visualize();
 	
 
-    // One could do a more complex mixing that fades out one clip while the other fades in
-    // TODO
-    
     return 0;
 }
