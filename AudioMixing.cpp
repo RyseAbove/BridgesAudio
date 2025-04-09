@@ -62,7 +62,7 @@ int main() {
     bridges.setTitle("Audio Mixing");
     bridges.setDescription("Mixing two AudioClips together");
 
-	/*
+	
     // Load the clips
     AudioClip acPiano = AudioClip("../audio/piano.wav");
     bridges.setDataStructure(acPiano);
@@ -76,7 +76,12 @@ int main() {
     AudioClip acMix = mixClips(acPiano, acBass);
     bridges.setDataStructure(acMix);
     bridges.visualize();
-	*/
+
+	// Fade mixing of the two AudioClips and visualize
+	AudioClip acFadeMix = mixFadeClips(acPiano, acBass, 5);
+	bridges.setDataStructure(acFadeMix);
+	bridges.visualize();
+	
 
     // One could do a more complex mixing that fades out one clip while the other fades in
     // TODO
