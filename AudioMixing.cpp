@@ -12,7 +12,11 @@ using namespace bridges;
 */
 AudioClip mixClips(const AudioClip& ac1, const AudioClip& ac2, float duration) {
   if (ac1.getSampleRate() != ac2.getSampleRate()) {
-    throw "can't mix audio clips of varying rates";
+    try {
+		throw "can't mix audio clips of varying rates";
+	} catch (const string& e) {
+		cout << "Caught error: " << e << endl;
+	}
   }
 
   //create an audio clip configured appropriately
@@ -39,7 +43,11 @@ AudioClip mixClips(const AudioClip& ac1, const AudioClip& ac2) {
 
 AudioClip mixFadeClips(const AudioClip& ac1, const AudioClip& ac2, float duration) {
 	if (ac1.getSampleRate() != ac2.getSampleRate())
-		throw "rates don't match";
+    	try {
+			throw "can't mix audio clips of varying rates";
+		} catch (const string& e) {
+			cout << "Caught error: " << e << endl;
+		}
 	
 
 	int sampleRate = ac1.getSampleRate();
@@ -76,11 +84,11 @@ int main() {
 
 	
     // Load the clips
-    AudioClip acPiano = AudioClip("../audio/piano.wav");
+    AudioClip acPiano = AudioClip("../audio/piano.mp3");
     bridges.setDataStructure(acPiano);
     bridges.visualize();
     
-    AudioClip acBass = AudioClip("../audio/bass.wav");
+    AudioClip acBass = AudioClip("../audio/bass.mp3");
     bridges.setDataStructure(acBass);
     bridges.visualize();
 	
